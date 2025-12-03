@@ -5,7 +5,10 @@ class AppTheme {
 
   static ThemeData mainTheme = ThemeData(
 
-    // Text
+    // Global Configs
+    fontFamily: 'Dana',
+
+    // Texts
     textTheme: TextTheme(
 
       // HeadLines
@@ -23,9 +26,22 @@ class AppTheme {
         fontSize: 20,
         fontWeight: FontWeight.w500,
         color: AppSolidColors.textLight,
-      )
+      ),
 
       // Labels
+      labelLarge: TextStyle(
+        fontFamily: 'Dana',
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        color: AppSolidColors.textLight,
+      ),
+
+      labelMedium: TextStyle(
+        fontFamily: 'Dana',
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: AppSolidColors.textLight,
+      ),
     ),
 
   );
