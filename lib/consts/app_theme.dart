@@ -42,6 +42,13 @@ class AppTheme {
         fontWeight: FontWeight.w500,
         color: AppSolidColors.textLight,
       ),
+
+      labelSmall: TextStyle(
+        fontFamily: 'Dana',
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: AppSolidColors.textLight,
+      ),
     ),
 
   );

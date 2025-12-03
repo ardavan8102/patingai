@@ -14,4 +14,8 @@ class AppStrings {
 
   """;
   static const shareApplicationTitle = 'اشتراک گذاری برنامه';
+
+  // Dialogs
+  static const String deleteMessagesListDialogTitle = 'حذف لیست پیام ها';
+  static const String deleteMessagesListDialogContent = 'از حذف پیام ها مطمئنید؟';
 }
