@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pating_ai/consts/app_routes.dart';
+import 'package:pating_ai/consts/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,13 +13,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+
       debugShowCheckedModeBanner: false,
+
       locale: Locale('fa', 'IR'),
       title: 'Pating AI',
-      // TODO : create App Theme file
-      // theme: ThemeData(
-      //   colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      // ),
+
+      theme: AppTheme.mainTheme,
+      
       initialRoute: AppRoutes.splash,
       getPages: AppPages.pages,
     );

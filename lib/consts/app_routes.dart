@@ -16,7 +16,7 @@ class AppPages {
       page: () => SplashScreen(),
     ),
     GetPage(
-      name: AppRoutes.splash,
+      name: AppRoutes.chatView,
       page: () => ChatViewPage(),
     ),
   ];

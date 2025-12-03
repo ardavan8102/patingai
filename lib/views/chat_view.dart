@@ -7,6 +7,13 @@ class ChatViewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue,
+      body: SafeArea(
+        child: Center(
+          child: Text(
+            'Chat View'
+          )
+        )
+      ),
     );
   }
 }
