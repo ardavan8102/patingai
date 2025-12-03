@@ -133,7 +133,10 @@ class ChatViewPage extends StatelessWidget {
                                     ),
                                     actions: [
                                       TextButton(
-                                        onPressed: () => Navigator.pop(context),
+                                        onPressed: () {
+                                          FocusScope.of(context).unfocus();
+                                          Navigator.pop(context);
+                                        },
                                         child: Text(
                                           "خیر",
                                           style: TextStyle(
@@ -144,8 +147,19 @@ class ChatViewPage extends StatelessWidget {
                                       ),
                                       TextButton(
                                         onPressed: () {
+                                          FocusScope.of(context).unfocus(); // Prevent Keyboard to opening
+
                                           Navigator.pop(context);
-                                          chatViewModel.messages.clear();
+
+                                          if (messageTextEditingController.text != '') {
+                                            chatViewModel.messages.clear();
+                                          } else {
+                                            AppSnackBars.failed(
+                                              'پیامی داخل لیست نیست',
+                                              textTheme,
+                                              size
+                                            );
+                                          }
                                         },
                                         child: Text(
                                           "بله، مطمئنم",
