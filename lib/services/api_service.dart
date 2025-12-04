@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   
-  final String baseURL = ' https://patingai.ir/api';
+  final String baseURL = 'https://patingai.s16.viptelbot.top/api';
 
   Future<Map<String, dynamic>> sendMessage ({
     required String message,
@@ -45,7 +45,7 @@ class ApiService {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      return {'error' : 'no valid response from api'};
+      throw Exception('خطایی رخ داد');
     }
 
   }

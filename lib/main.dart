@@ -5,6 +5,7 @@ import 'package:pating_ai/consts/app_routes.dart';
 import 'package:pating_ai/consts/app_theme.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }

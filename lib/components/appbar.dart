@@ -17,14 +17,6 @@ class PatingoAppBar extends StatelessWidget implements PreferredSizeWidget {
         AppStrings.brandNameFa,
         style: textTheme.labelLarge,
       ),
-      centerTitle: true,
-      leading: Padding(
-        padding: const EdgeInsets.only(right: 20.0),
-        child: IconButton(
-          onPressed: () {},
-          icon: Icon(CupertinoIcons.bars, color: Colors.white)
-        ),
-      ),
       actions: [
         Padding(
           padding: const EdgeInsets.only(left: 20.0),

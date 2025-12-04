@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:pating_ai/components/appbar.dart';
 import 'package:pating_ai/components/snackbars.dart';
@@ -28,191 +31,233 @@ class ChatViewPage extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
           // Main Column
-          child: SizedBox(
-            width: size.width,
-            height: size.height,
-            child: Column(
-              children: [
-                // List Messages
-                Obx(
-                  () => Expanded(
-                    child: ListView.builder(
-                      itemCount: chatViewModel.messages.length,
-                      itemBuilder: (context, index) {
-                        final message = chatViewModel.messages[index];
-
-                        return Align(
-                          alignment: message.isFromUser
-                            ? .centerRight
-                            : .centerLeft,
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            decoration: BoxDecoration(
-                              gradient: message.isFromUser 
-                                ? LinearGradient(
-                                    colors: AppGradientColors.magentaVpurple,
-                                    begin: .bottomRight,
-                                    end: .topLeft,
-                                  )
-                                : LinearGradient(
-                                    colors: AppGradientColors.blueVcyan,
-                                    begin: .bottomLeft,
-                                    end: .topRight,
-                                  ),
-                              borderRadius: .circular(8),
-                            ),
-                            child: Text(
-                              message.text, 
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-
-                // Message Input
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: AppGradientColors.whiteGlass,
-                      begin: .bottomRight,
-                      end: .topLeft,
-                    ),
-                    borderRadius: .circular(12),
-                    border: Border.all(
-                      width: 1,
-                      color: AppSolidColors.glassBoxBorderWhite,
-                    ),
-                  ),
-                  padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: messageTextEditingController,
-                          style: textTheme.labelSmall,
-                          decoration: InputDecoration(
-                            hintText: 'یک متن بنویسید ...',
-                            border: InputBorder.none,
-                            hintStyle: AppTextStyles.textInputHintText,
-                          ),
-                          cursorColor: AppSolidColors.accent,
+          child: Stack(
+            children: [
+              SizedBox(
+                width: size.width,
+                height: size.height,
+                child: Column(
+                  children: [
+                    // List Messages
+                    Obx(
+                      () => Expanded(
+                        child: ListView.builder(
+                          itemCount: chatViewModel.messages.length,
+                          itemBuilder: (context, index) {
+                            final message = chatViewModel.messages[index];
+              
+                            return Align(
+                              alignment: message.isFromUser
+                                ? .centerRight
+                                : .centerLeft,
+                              child: Container(
+                                padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+                                margin: EdgeInsets.symmetric(vertical: 10),
+                                decoration: BoxDecoration(
+                                  gradient: message.isFromUser 
+                                    ? LinearGradient(
+                                        colors: AppGradientColors.magentaVpurple,
+                                        begin: .bottomRight,
+                                        end: .topLeft,
+                                      )
+                                    : LinearGradient(
+                                        colors: AppGradientColors.blueVcyan,
+                                        begin: .bottomLeft,
+                                        end: .topRight,
+                                      ),
+                                  borderRadius: .circular(8),
+                                ),
+                                child: Text(
+                                  message.text, 
+                                  style: TextStyle(color: Colors.white),
+                                )
+                              ),
+                            );
+                          },
                         ),
                       ),
-
-                      Row(
-                        spacing: 10,
+                    ),
+              
+                    // Message Input
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: AppGradientColors.whiteGlass,
+                          begin: .bottomRight,
+                          end: .topLeft,
+                        ),
+                        borderRadius: .circular(12),
+                        border: Border.all(
+                          width: 1,
+                          color: AppSolidColors.glassBoxBorderWhite,
+                        ),
+                      ),
+                      padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                      child: Row(
                         children: [
-                          InkWell(
-                            onTap: () {
-                              showCupertinoDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (context) {
-                                  return CupertinoAlertDialog(
-                                    insetAnimationDuration: Duration(milliseconds: 300),
-                                    title: Text(
-                                      AppStrings.deleteMessagesListDialogTitle,
-                                      style: textTheme.titleLarge!.copyWith(
-                                        color: AppSolidColors.darkScaffoldBackground,
-                                        fontFamily: 'Meem',
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                    ),
-                                    content: Padding(
-                                      padding: const EdgeInsets.only(top: 10.0),
-                                      child: Text(
-                                        AppStrings.deleteMessagesListDialogContent,
-                                        style: textTheme.labelMedium!.copyWith(
-                                          color: AppSolidColors.darkScaffoldBackground.withValues(alpha: 0.6),
-                                        ),
-                                      ),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          FocusScope.of(context).unfocus();
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "خیر",
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                            fontSize: 14
-                                          ),
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          FocusScope.of(context).unfocus(); // Prevent Keyboard to opening
-
-                                          Navigator.pop(context);
-
-                                          if (messageTextEditingController.text != '') {
-                                            chatViewModel.messages.clear();
-                                          } else {
-                                            AppSnackBars.failed(
-                                              'پیامی داخل لیست نیست',
-                                              textTheme,
-                                              size
-                                            );
-                                          }
-                                        },
-                                        child: Text(
-                                          "بله، مطمئنم",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.green
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                            child: Icon(
-                              Icons.delete_forever,
-                              color: Colors.white,
-                              size: 28,
+                          Expanded(
+                            child: TextField(
+                              controller: messageTextEditingController,
+                              style: textTheme.labelSmall,
+                              decoration: InputDecoration(
+                                hintText: 'یک متن بنویسید ...',
+                                border: InputBorder.none,
+                                hintStyle: AppTextStyles.textInputHintText,
+                              ),
+                              cursorColor: AppSolidColors.accent,
                             ),
                           ),
-
-                          InkWell(
-                            onTap: () {
-                              if (messageTextEditingController.text != '') {
-                                chatViewModel.addMessage(
-                                  text: messageTextEditingController.text,
-                                  isFromUser: true
-                                );
-                            
-                                // Clear Text Input On Send
-                                messageTextEditingController.clear();
-                              } else {
-                                AppSnackBars.failed(
-                                  'متن ارسالی نباید خالی باشد!',
-                                  textTheme,
-                                  size
-                                );
-                              }
-                              
-                            },
-                            child: Icon(
-                              Icons.send,
-                              color: Colors.white,
-                              size: 28,
-                            ),
+              
+                          Row(
+                            spacing: 10,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                  showCupertinoDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) {
+                                      return CupertinoAlertDialog(
+                                        insetAnimationDuration: Duration(milliseconds: 300),
+                                        title: Text(
+                                          AppStrings.deleteMessagesListDialogTitle,
+                                          style: textTheme.titleLarge!.copyWith(
+                                            color: AppSolidColors.darkScaffoldBackground,
+                                            fontFamily: 'Meem',
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                        content: Padding(
+                                          padding: const EdgeInsets.only(top: 10.0),
+                                          child: Text(
+                                            AppStrings.deleteMessagesListDialogContent,
+                                            style: textTheme.labelMedium!.copyWith(
+                                              color: AppSolidColors.darkScaffoldBackground.withValues(alpha: 0.6),
+                                            ),
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                              Future.microtask(() {
+                                                // ignore: use_build_context_synchronously
+                                                FocusScope.of(context).requestFocus(FocusNode());
+                                              });
+                                            },
+                                            child: Text(
+                                              "خیر",
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 14
+                                              ),
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+              
+                                              Future.microtask(() {
+                                                // ignore: use_build_context_synchronously
+                                                FocusScope.of(context).requestFocus(FocusNode());
+                                              });
+                                              
+                                              if (messageTextEditingController.text != '') {
+                                                chatViewModel.messages.clear();
+                                              } else {
+                                                AppSnackBars.failed(
+                                                  'پیامی داخل لیست نیست',
+                                                  textTheme,
+                                                  size
+                                                );
+                                              }
+                                            },
+                                            child: Text(
+                                              "بله، مطمئنم",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.green
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.delete_forever,
+                                  color: Colors.white,
+                                  size: 28,
+                                ),
+                              ),
+              
+                              InkWell(
+                                onTap: () {
+                                  if (messageTextEditingController.text != '') {
+                                    chatViewModel.sendMessageToAi(messageTextEditingController.text);
+                                    // Clear Text Input On Send
+                                    messageTextEditingController.clear();
+                                  } else {
+                                    AppSnackBars.failed(
+                                      'متن ارسالی نباید خالی باشد!',
+                                      textTheme,
+                                      size
+                                    );
+                                  }
+                                  
+                                },
+                                child: Icon(
+                                  Icons.send,
+                                  color: Colors.white,
+                                  size: 28,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            
+              // Loading Overlay
+              Obx(() {
+                if (!chatViewModel.isLoading.value) return SizedBox.shrink();
+
+                return BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 25,
+                    sigmaY: 25
+                  ),
+                  child: Container(
+                    width: size.width,
+                    height: size.height,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.4),
+                      borderRadius: .circular(20),
+                    ),
+                    child: Center(
+                      child: Column(
+                        spacing: 30,
+                        mainAxisAlignment: .center,
+                        children: [
+                          SpinKitChasingDots(
+                            color: AppSolidColors.accent,
+                          ),
+                          Text(
+                            'دارم فکر میکنم وایسا ...',
+                            style: textTheme.labelLarge,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ],
           ),
         ),
       ),
